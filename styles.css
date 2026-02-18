@@ -1,0 +1,396 @@
+/**
+ * WP Playground Preview - Styles
+ * Custom styles for the Playground button
+ */
+
+/* Ensure the button matches WordPress.org styling */
+.plugin-playground-preview {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  .plugin-playground-preview .wp-element-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .plugin-playground-preview .playground-icon {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9em;
+  }
+  
+  /* Hover effect */
+  .plugin-playground-preview .wp-element-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Active state */
+  .plugin-playground-preview .wp-element-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .plugin-playground-preview {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+    
+    .plugin-actions {
+      flex-wrap: wrap;
+    }
+  }
+  
+  /* Animation when button is added */
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .plugin-playground-preview {
+    animation: fadeInSlide 0.3s ease-out;
+  }
+
+  /* --- Add to Playground list button --- */
+  .wp-playground-cart-button-wrap {
+    display: block;
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .plugin-actions .wp-playground-cart-button-wrap {
+    display: inline-block;
+    margin-left: 8px;
+    margin-top: 0;
+  }
+
+  .wporg-theme-actions .wp-playground-cart-button-wrap {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .wp-playground-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    background: transparent;
+    color: #0073aa;
+    transition: all 0.2s ease;
+  }
+
+  .wp-playground-cart-btn:hover:not(.is-disabled) {
+    background: #f0f0f1;
+  }
+
+  .wp-playground-cart-btn.is-disabled,
+  .wp-playground-cart-btn[disabled] {
+    cursor: default;
+    pointer-events: none;
+    color: #757575 !important;
+    border-color: #c3c4c7 !important;
+    background: #f0f0f1 !important;
+    opacity: 1;
+  }
+
+  .wp-playground-cart-msg {
+    display: block;
+    font-size: 12px;
+    margin-top: 6px;
+    margin-left: 0;
+    padding: 6px 10px;
+    background: #f0f6fc;
+    border-left: 3px solid #0073aa;
+    color: #1e3a5f;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* --- Floating Playground Cart --- */
+  #wp-playground-floating-cart {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2147483646;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    font-size: 14px;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-trigger {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: #0073aa;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 115, 170, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-trigger:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 115, 170, 0.5);
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-icon svg {
+    display: block;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #d63638;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wp-playground-floating-cart.is-empty .wp-playground-cart-badge {
+    background: #757575;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-panel {
+    position: absolute;
+    bottom: 64px;
+    right: 0;
+    width: 320px;
+    max-height: 540px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid #dcdcde;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #dcdcde;
+    background: #f6f7f7;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-panel-header strong {
+    font-size: 15px;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: #646970;
+    border-radius: 4px;
+    padding: 0;
+  }
+
+  .wp-playground-floating-cart .wp-playground-cart-close:hover {
+    background: #dcdcde;
+    color: #1e1e1e;
+  }
+
+  .wp-playground-cart-list {
+    padding: 12px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 80px;
+    max-height: 320px;
+  }
+
+  .wp-playground-cart-empty {
+    color: #646970;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .wp-playground-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #f6f7f7;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .wp-playground-cart-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .wp-playground-list-category {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #646970;
+    margin: 12px 0 6px;
+    padding: 0 2px;
+  }
+
+  .wp-playground-list-category:first-child {
+    margin-top: 0;
+  }
+
+  .wp-playground-cart-item-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wp-playground-cart-remove {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: #646970;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .wp-playground-cart-remove:hover {
+    background: #d63638;
+    color: #fff;
+  }
+
+  .wp-playground-cart-advanced {
+    padding: 12px 16px;
+    border-top: 1px solid #dcdcde;
+    background: #fafafa;
+  }
+
+  .wp-playground-advanced-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .wp-playground-advanced-content {
+    margin-top: 10px;
+  }
+
+  .wp-playground-advanced-content label {
+    display: block;
+    font-size: 12px;
+    color: #646970;
+    margin-bottom: 4px;
+  }
+
+  .wp-playground-advanced-content .wp-playground-version-select,
+  .wp-playground-advanced-content .wp-playground-php-select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    font-size: 13px;
+    background: #fff;
+  }
+
+  .wp-playground-advanced-content .wp-playground-php-select {
+    margin-top: 8px;
+  }
+
+  .wp-playground-clear-list {
+    display: block;
+    width: calc(100% - 24px);
+    max-width: 100%;
+    margin: 0 12px 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #646970;
+    background: transparent;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .wp-playground-clear-list:hover {
+    background: #f0f0f1;
+    color: #d63638;
+  }
+
+  .wp-playground-cart-footer {
+    padding: 16px;
+    border-top: 1px solid #dcdcde;
+    border-radius: 0 0 12px 12px;
+    background: #fff;
+  }
+
+  .wp-playground-proceed-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .wp-playground-proceed-btn:hover:not(:disabled) {
+    background: #005a87;
+  }
+
+  .wp-playground-proceed-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
