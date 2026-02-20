@@ -1,25 +1,32 @@
 # WP Playground Preview
 
-A Chrome extension that adds a **"Try in Playground"** button to WordPress plugin and theme pages, enabling instant testing in WordPress Playground without any setup.
+A Chrome extension that adds **"Try in Playground"** and **"Add to Playground list"** to WordPress.org plugin and theme pages, enabling instant testing in [WordPress Playground](https://playground.wordpress.net) with one click or with multiple plugins and a theme together.
 
 ![Extension Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)
 
 ## 🎯 Features
 
-- **One-Click Testing**: Instantly test any WordPress plugin in WordPress Playground
-- **Smart Detection**: Only adds the button when Live Preview isn't already available
-- **Seamless Integration**: Matches WordPress.org's native button styling
-- **New Tab Opening**: Opens playground in a new tab for easy side-by-side testing
-- **Clean UI**: Minimal, non-intrusive design that fits perfectly with WordPress.org
+- **Try in Playground**: One-click testing for any WordPress **plugin** or **theme** in WordPress Playground
+- **Add to Playground list**: Build a list of multiple plugins and one theme, then open them all in Playground at once
+- **Floating list**: A floating icon shows your list count; open it to view items by category (Plugins / Themes), remove items, clear list, or open in Playground
+- **Advanced options**: Before opening, choose WordPress version (latest + 2 previous majors) and PHP version (7.4–8.5 or latest)
+- **Smart detection**: On plugin pages, the button is only added when Live Preview isn’t already available
+- **Theme & locale support**: Works on plugin and theme pages, including locale subdomains (e.g. `en-gb.wordpress.org`)
+- **Seamless integration**: Matches WordPress.org button styling; list stored locally on your device
 
 ## 📸 Screenshots
 
-The extension adds a "Try in Playground" button next to the Download button on WordPress plugin and theme pages:
+On **plugin** and **theme** pages you’ll see:
+
+- **Try in Playground** – opens this plugin/theme in Playground in a new tab  
+- **Add to Playground list** – adds it to your list (or shows “Already in Playground list” when already added)
 
 ```
-[Download] [Try in Playground]
+[Download] [Try in Playground] [Add to Playground list]
 ```
+
+A **floating icon** (bottom-right) opens your Playground list: view items, remove any, clear list, set WordPress/PHP version (advanced), then **Open in Playground**.
 
 ## 🚀 Installation
 
@@ -38,15 +45,25 @@ The extension adds a "Try in Playground" button next to the Download button on W
 
 ## 📝 Usage
 
-1. Navigate to any WordPress plugin or theme page on wordpress.org
-   - Example: https://wordpress.org/plugins/contact-form-7/
-2. Look for the "Try in Playground" button next to the Download button
-3. Click the button to open the plugin in WordPress Playground
-4. Test the plugin instantly in a live WordPress environment!
+### Try in Playground (single item)
 
-**Note**: The button only appears when:
-- You're on a specific plugin page (not search results)
-- The plugin doesn't already have a "Live Preview" button
+1. Go to any WordPress **plugin** or **theme** page on wordpress.org (including locale sites like `en-gb.wordpress.org`).
+   - Plugin example: https://wordpress.org/plugins/contact-form-7/
+   - Theme example: https://wordpress.org/themes/twentytwentyfour/
+2. Click **Try in Playground** to open that plugin or theme in WordPress Playground in a new tab.
+3. Test it in a live WordPress environment.
+
+### Add to Playground list (multiple items)
+
+1. On plugin or theme pages, click **Add to Playground list** to add the current plugin or theme to your list.
+   - You can add **multiple plugins** and **one theme** (adding another theme replaces the need to remove the current theme first).
+2. Use the **floating icon** (bottom-right) to open your list:
+   - View items under **Plugins** and **Themes**.
+   - Remove items with the × button or **Clear list** to empty the list.
+   - Optionally enable **Advanced options** to choose **WordPress version** (Latest, 6.8, 6.7, etc.) and **PHP version** (Latest, 8.5, 8.4, … 7.4).
+3. Click **Open in Playground** to open Playground with all listed plugins and the theme (and chosen WP/PHP version if set).
+
+**Note**: Buttons appear only on **single** plugin or theme pages (not on search or listing pages). On plugin pages, “Try in Playground” is only added when the page doesn’t already have a Live Preview button.
 
 ## 🔧 Technical Details
 
@@ -54,8 +71,9 @@ The extension adds a "Try in Playground" button next to the Download button on W
 - Uses Manifest V3 (latest Chrome extension standard)
 
 ### Permissions
-- `host_permissions`: Access to wordpress.org to inject the button
-- No additional permissions required (privacy-focused)
+- **storage**: Saves your Playground list locally on your device (no server).
+- **activeTab**: Lets the popup detect if the current tab is a WordPress.org plugin/theme page when you open the extension.
+- **host_permissions**: wordpress.org and api.wordpress.org — to inject buttons and fetch the public WordPress version list for Advanced options.
 
 ### Files Structure
 ```
@@ -77,11 +95,8 @@ wp-playground-preview/
 
 ## 🎨 Extension Details
 
-### Name Options
-1. **WP Playground Preview** (Recommended - Clear and descriptive)
-2. **WordPress Playground Launcher**
-3. **Playground Quick Test**
-4. **WP Plugin Tester**
+### Name
+**WP Playground Preview** — works for both plugins and themes.
 
 ### Slug
 - `wp-playground-preview`
@@ -94,32 +109,26 @@ wp-playground-preview/
 
 ## 🔗 How It Works
 
-1. **Detection**: The extension runs on all `wordpress.org/plugins/*` pages
-2. **URL Parsing**: Extracts the plugin slug from the URL
-3. **Button Check**: Verifies that a Live Preview button doesn't already exist
-4. **Button Creation**: Creates a styled button matching WordPress.org design
-5. **Link Generation**: Creates playground URL: `https://playground.wordpress.net/?plugin={slug}`
-6. **Insertion**: Places the button next to the Download button
+- **Try in Playground**: On each plugin/theme page, the extension parses the slug from the URL and adds a link to `https://playground.wordpress.net/?plugin={slug}` or `?theme={slug}`. On plugin pages it only adds the button when the page doesn’t already have a Live Preview button.
+- **Add to Playground list**: Clicking “Add to Playground list” stores the item (plugin or theme) in `chrome.storage.local`. The floating icon shows the count; opening it shows the list (Plugins / Themes), remove and Clear list, and Advanced options (WordPress + PHP version). “Open in Playground” builds a URL with all `plugin=` and `theme=` params (and optional `wp=` and `php=`) and opens it in a new tab.
 
 ## 🛠️ Development
 
 ### Building from Source
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/wp-playground-preview.git
+git clone https://github.com/ronakganatra9/wp-playground-preview.git
 
 # Navigate to directory
 cd wp-playground-preview
-
-# Generate icons (if needed)
-python3 generate_icons.py
+# Then load the folder as an unpacked extension in Chrome (see Installation).
 ```
 
 ### Testing
-1. Load the extension in Chrome (Developer Mode)
-2. Visit any WordPress plugin or theme page
-3. Verify the button appears and functions correctly
-4. Test with plugins that have/don't have Live Preview
+1. Load the extension in Chrome (Developer Mode).
+2. Visit a WordPress plugin page and a theme page; confirm “Try in Playground” and “Add to Playground list” appear and work.
+3. Add several plugins and one theme to the list, open the floating icon, then click “Open in Playground” and confirm the URL and Playground load correctly.
+4. Test Advanced options (WordPress version, PHP version) and Clear list.
 
 ### Code Quality
 - Clean, commented JavaScript
@@ -137,32 +146,28 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📋 Roadmap
 
-- [ ] Add keyboard shortcut (Alt+P) to open playground
-- [ ] Settings panel for customization
-- [ ] Support for theme pages
-- [ ] Option to open with specific WordPress version
-- [ ] Statistics tracking (optional, with user consent)
-- [ ] Dark mode support
 
 ## 🐛 Known Issues
 
-None currently. Please [report issues](https://github.com/yourusername/wp-playground-preview/issues) if you find any!
+None currently. Please [report issues](https://github.com/ronakganatra9/wp-playground-preview/issues) if you find any!
 
 ## ❓ FAQ
 
-**Q: Why doesn't the button appear on some plugin pages?**  
-A: The button only appears when there's no existing "Live Preview" button to avoid duplication.
+**Q: Does this work with plugins and themes?**  
+A: Yes. It works on both plugin and theme pages on wordpress.org (and locale subdomains like en-gb.wordpress.org). You get “Try in Playground” and “Add to Playground list” on both.
+
+**Q: Why doesn’t the button appear on some plugin pages?**  
+A: On plugin pages, “Try in Playground” is only added when the page doesn’t already have a “Live Preview” button. On theme pages it’s always added.
+
+**Q: What is the Playground list?**  
+A: A list you build by clicking “Add to Playground list” on plugin/theme pages. You can add multiple plugins and one theme. Open the floating icon to see the list, remove items, clear it, set WordPress/PHP version (Advanced options), then click “Open in Playground” to open everything at once.
 
 **Q: Is this extension safe to use?**  
-A: Yes! The extension only adds a button to WordPress.org pages. It doesn't collect data or require sensitive permissions.
-
-**Q: Does this work with themes too?**  
-A: Currently, it only works with plugins. Theme support may be added in a future version.
+A: Yes. It only runs on WordPress.org and adds buttons + a local list. Your list is stored only on your device (Chrome local storage). It doesn’t send your data to any server. See [PRIVACY.md](PRIVACY.md) for details.
 
 **Q: Can I customize the button text or style?**  
-A: Currently, no. Customization options may be added in future updates.
+A: Not in the UI yet. Customization may be added in a future update.
 
 ## 📄 License
 
@@ -170,15 +175,14 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- WordPress.org for the amazing plugin repository
-- WordPress Playground team for the incredible testing platform
+- WordPress.org for the plugin and theme repositories
+- WordPress Playground team for the testing platform
 - The WordPress community for continuous inspiration
 
 ## 📞 Support
 
-- Report bugs: [GitHub Issues](https://github.com/yourusername/wp-playground-preview/issues)
-- Feature requests: [GitHub Discussions](https://github.com/yourusername/wp-playground-preview/discussions)
-- Email: support@example.com
+- Report bugs: [GitHub Issues](https://github.com/ronakganatra9/wp-playground-preview/issues)
+- Email: ronakganatra9@gmail.com
 
 ## 🌟 Star This Repository
 
