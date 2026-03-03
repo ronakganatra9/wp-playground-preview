@@ -244,9 +244,9 @@
     return params.length ? base + '?' + params.join('&') : base;
   }
 
-  var PHP_VERSIONS = ['latest', '8.5', '8.4', '8.3', '8.2', '8.1', '8.0', '7.4'];
+  var PHP_VERSIONS = ['Latest PHP 8.5', 'PHP 8.4', 'PHP 8.3', 'PHP 8.2', 'PHP 8.1', 'PHP 8.0', 'PHP 7.4'];
 
-  function fetchWpVersionsLast3() {
+  function fetchWpVersions() {
     return fetch(WP_VERSION_API)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -256,6 +256,9 @@
           const v = o.version;
           if (!v) return;
           const parts = v.split('.');
+          var majorNum = parseInt(parts[0], 10);
+          var minorNum = parseInt(parts[1] || '0', 10);
+          if (majorNum < 6 || (majorNum === 6 && minorNum < 3)) return;
           var major = parts[0] + '.' + (parts[1] || '0');
           if (!byMajor[major]) byMajor[major] = major;
         });
@@ -264,7 +267,7 @@
           const bp = b.split('.').map(Number);
           return bp[0] !== ap[0] ? bp[0] - ap[0] : bp[1] - ap[1];
         });
-        return sorted.slice(0, 3);
+        return sorted;
       })
       .catch(function() { return []; });
   }
@@ -455,13 +458,27 @@
       if (show) {
         if (versionSelect.options.length <= 1) {
           versionSelect.innerHTML = '<option value="latest">Latest</option>';
-          fetchWpVersionsLast3().then(function(versions) {
-            (versions.slice(1, 3) || []).forEach(function(v) {
+          fetchWpVersions().then(function(versions) {
+            versionSelect.innerHTML = '';
+            var latestLabel = versions.length ? 'Latest (' + versions[0] + ')' : 'Latest';
+            var optLatest = document.createElement('option');
+            optLatest.value = 'latest';
+            optLatest.textContent = latestLabel;
+            versionSelect.appendChild(optLatest);
+            versions.slice(1).forEach(function(v) {
               var opt = document.createElement('option');
               opt.value = v;
               opt.textContent = v;
               versionSelect.appendChild(opt);
             });
+            var optBeta = document.createElement('option');
+            optBeta.value = 'beta';
+            optBeta.textContent = 'Beta';
+            versionSelect.appendChild(optBeta);
+            var optTrunk = document.createElement('option');
+            optTrunk.value = 'nightly';
+            optTrunk.textContent = 'Trunk (nightly)';
+            versionSelect.appendChild(optTrunk);
           });
         }
         var phpSelect = root.querySelector('.wp-playground-php-select');
